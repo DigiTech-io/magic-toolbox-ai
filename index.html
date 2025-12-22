@@ -3,217 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LingoBridge | English to Hindi Translator</title>
+    <title>LingoBridge | English to Hindi</title>
     <style>
-        :root {
-            --primary-bg: #0a192f;
-            --card-bg: #112240;
-            --neon-blue: #64ffda;
-            --neon-purple: #c084fc;
-            --text-primary: #ccd6f6;
-            --text-secondary: #8892b0;
-            --border-color: rgba(100, 255, 218, 0.2);
-            --success: #10b981;
-            --error: #ef4444;
-        }
-
-        * { box-sizing: border-box; }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            margin: 0;
-            padding: 20px;
-            min-height: 100vh;
-            background: linear-gradient(135deg, var(--primary-bg) 0%, #1a1a2e 100%);
-            color: var(--text-primary);
+            background: linear-gradient(135deg, #0a192f 0%, #1a1a2e 100%);
+            color: #ccd6f6;
             font-family: 'Segoe UI', sans-serif;
+            min-height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
-
         .container {
-            width: min(95%, 1000px);
-            background: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 24px;
-            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 900px;
+            background: #112240;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
-
-        .header { text-align: center; margin-bottom: 2rem; }
-        h1 { 
-            color: var(--neon-blue); 
-            font-size: clamp(2rem, 5vw, 3rem); 
-            margin: 0 0 0.5rem 0;
+        h1 {
+            color: #64ffda;
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
         }
-        .subtitle { color: var(--text-secondary); font-size: 1.1rem; margin: 0; }
-
-        .tool-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-            margin-bottom: 2rem;
+        .subtitle {
+            text-align: center;
+            color: #8892b0;
+            margin-bottom: 30px;
         }
-
-        @media (min-width: 768px) {
-            .tool-grid { grid-template-columns: 1fr 1fr; }
+        .input-group {
+            margin-bottom: 20px;
         }
-
-        .textarea-group { display: flex; flex-direction: column; }
-        .label { 
-            font-weight: 600; 
-            color: var(--neon-blue); 
-            margin-bottom: 0.75rem; 
+        label {
+            display: block;
+            color: #64ffda;
+            font-weight: bold;
+            margin-bottom: 10px;
         }
-
         textarea {
             width: 100%;
-            min-height: 180px;
-            background: rgba(29,45,80,0.8);
-            border: 2px solid var(--border-color);
-            border-radius: 16px;
-            color: var(--text-primary);
-            padding: 1.25rem;
+            height: 200px;
+            background: #1d2d50;
+            border: 2px solid #64ffda;
+            border-radius: 10px;
+            color: white;
+            padding: 15px;
             font-size: 16px;
             resize: vertical;
-            transition: all 0.3s ease;
         }
-
         textarea:focus {
             outline: none;
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 0 4px rgba(100,255,218,0.1);
+            border-color: #64ffda;
+            box-shadow: 0 0 10px rgba(100,255,218,0.3);
         }
-
-        textarea::placeholder { color: var(--text-secondary); }
-
         .controls {
             display: flex;
+            gap: 10px;
             flex-wrap: wrap;
-            gap: 1rem;
             justify-content: center;
-            padding: 1.5rem 0;
-            border-top: 1px solid var(--border-color);
+            margin: 20px 0;
         }
-
-        .btn {
+        button {
             background: transparent;
-            border: 2px solid var(--neon-blue);
-            color: var(--neon-blue);
-            padding: 0.875rem 1.75rem;
-            border-radius: 12px;
+            border: 2px solid #64ffda;
+            color: #64ffda;
+            padding: 12px 24px;
+            border-radius: 8px;
             cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
+            font-weight: bold;
+            transition: all 0.3s;
         }
-
-        .btn:hover {
-            background: var(--neon-blue);
-            color: var(--primary-bg);
-            transform: translateY(-2px);
+        button:hover {
+            background: #64ffda;
+            color: #0a192f;
         }
-
-        .btn:disabled { 
-            opacity: 0.5; 
-            cursor: not-allowed; 
-            transform: none !important;
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
-
-        .btn.success {
-            border-color: var(--success);
-            color: var(--success);
-        }
-
-        .btn.success:hover {
-            background: var(--success);
-            color: var(--primary-bg);
-        }
-
-        .status {
+        #status {
             text-align: center;
-            padding: 1rem;
-            border-radius: 12px;
-            margin-top: 1rem;
-            font-weight: 500;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-weight: bold;
             display: none;
         }
-
-        .status.loading {
-            background: rgba(100,255,218,0.1);
-            color: var(--neon-blue);
-            border: 1px solid var(--neon-blue);
-        }
-
-        .status.success { 
-            background: rgba(16,185,129,0.1); 
-            color: var(--success); 
-            border: 1px solid var(--success);
-        }
-
-        .status.error { 
-            background: rgba(239,68,68,0.1); 
-            color: var(--error); 
-            border: 1px solid var(--error);
-        }
-
-        .char-count {
-            text-align: right;
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-        }
-
+        .success { background: rgba(16,185,129,0.2); color: #10b981; border: 1px solid #10b981; }
+        .error { background: rgba(239,68,68,0.2); color: #ef4444; border: 1px solid #ef4444; }
+        .loading { background: rgba(100,255,218,0.2); color: #64ffda; border: 1px solid #64ffda; }
         #fileInput { display: none; }
-
-        @media (max-width: 640px) {
-            .controls { flex-direction: column; align-items: stretch; }
-            .btn { justify-content: center; }
+        @media (max-width: 600px) {
+            .controls { flex-direction: column; }
+            button { width: 100%; }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🔤 LingoBridge</h1>
-            <p class="subtitle">English को आसान हिंदी में बदलें - तुरंत!</p>
+        <h1>🔤 LingoBridge</h1>
+        <p class="subtitle">English को आसान हिंदी में बदलें</p>
+
+        <div class="input-group">
+            <label>🇺🇸 English Text:</label>
+            <textarea id="englishText" placeholder="यहाँ English लिखें..." maxlength="2000"></textarea>
         </div>
 
-        <div class="tool-grid">
-            <div class="textarea-group">
-                <label for="englishText">🇺🇸 English Text</label>
-                <textarea 
-                    id="englishText" 
-                    placeholder="यहाँ English टेक्स्ट लिखें या .txt फाइल अपलोड करें..."
-                    maxlength="3000"
-                ></textarea>
-                <div class="char-count" id="charCount">0/3000</div>
-            </div>
-            
-            <div class="textarea-group">
-                <label for="hindiText">🇮🇳 हिंदी अनुवाद</label>
-                <textarea id="hindiText" placeholder="यहाँ हिंदी अनुवाद आएगा..." readonly></textarea>
-            </div>
+        <div class="input-group">
+            <label>🇮🇳 Hindi Translation:</label>
+            <textarea id="hindiText" placeholder="यहाँ Hindi आएगा..." readonly></textarea>
         </div>
 
         <div class="controls">
-            <button class="btn" onclick="loadFile()" title="TXT फाइल अपलोड करें">
-                📂 Upload .txt
-            </button>
-            <input type="file" id="fileInput" accept=".txt" onchange="handleFile(event)">
-            
-            <button class="btn" id="translateBtn" onclick="translateText()" title="Ctrl+Enter">
-                ⚡ Translate
-            </button>
-            
-            <button class="btn success" id="copyBtn" onclick="copyText()" disabled title="हिंदी कॉपी करें">
-                📋 Copy Hindi
-            </button>
+            <button onclick="uploadFile()">📂 Upload TXT</button>
+            <input type="file" id="fileInput" accept=".txt">
+            <button id="translateBtn" onclick="translateNow()">⚡ Translate</button>
+            <button id="copyBtn" onclick="copyHindi()" disabled>📋 Copy</button>
         </div>
 
-        <div id="status" class="status"></div>
+        <div id="status"></div>
     </div>
 
     <script>
@@ -221,51 +133,11 @@
         const hindiText = document.getElementById('hindiText');
         const translateBtn = document.getElementById('translateBtn');
         const copyBtn = document.getElementById('copyBtn');
-        const statusDiv = document.getElementById('status');
-        const charCount = document.getElementById('charCount');
+        const status = document.getElementById('status');
         const fileInput = document.getElementById('fileInput');
 
-        // Character counter
-        englishText.addEventListener('input', updateCharCount);
-        function updateCharCount() {
-            const length = englishText.value.length;
-            charCount.textContent = `${length}/3000`;
-            charCount.style.color = length > 2800 ? 'var(--error)' : 'var(--text-secondary)';
-        }
-
-        // File upload
-        function loadFile() {
-            fileInput.click();
-        }
-
-        function handleFile(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            if (!file.name.toLowerCase().endsWith('.txt')) {
-                showStatus('❌ केवल .txt फाइलें सपोर्ट हैं!', 'error');
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const content = e.target.result;
-                if (content.length > 3000) {
-                    englishText.value = content.slice(0, 3000);
-                    showStatus('⚠️ फाइल काटी गई (3000 अक्षर लिमिट)', 'error');
-                } else {
-                    englishText.value = content;
-                    showStatus('✅ फाइल लोड हो गई!', 'success');
-                }
-                updateCharCount();
-                fileInput.value = '';
-            };
-            reader.onerror = () => showStatus('❌ फाइल पढ़ने में एरर!', 'error');
-            reader.readAsText(file);
-        }
-
-        // 🔥 WORKING TRANSLATION (3 APIs fallback)
-        async function translateText() {
+        // ✅ WORKING TRANSLATION - Google Translate Proxy
+        async function translateNow() {
             const text = englishText.value.trim();
             if (!text) {
                 showStatus('❌ पहले English लिखें!', 'error');
@@ -273,137 +145,99 @@
             }
 
             setLoading(true);
-            copyBtn.disabled = true;
-            hindiText.value = '⏳ अनुवाद हो रहा है...';
 
             try {
-                // API 1: MyMemory (सबसे तेज़)
-                const result1 = await fetchMyMemory(text);
-                if (result1) return finishTranslation(result1);
+                // 🔥 PROVEN WORKING API (No CORS issues)
+                const response = await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=hi&dt=t&q=' + encodeURIComponent(text) + '&ie=UTF-8&oe=UTF-8');
+                const data = await response.json();
+                
+                let translated = '';
+                if (data && data[0]) {
+                    data[0].forEach(part => {
+                        if (part[0]) translated += part[0];
+                    });
+                }
 
-                // API 2: LibreTranslate
-                const result2 = await fetchLibreTranslate(text);
-                if (result2) return finishTranslation(result2);
-
-                // API 3: Backup API
-                const result3 = await fetchBackupAPI(text);
-                if (result3) return finishTranslation(result3);
-
-                throw new Error('सभी APIs unavailable');
-
+                if (translated) {
+                    hindiText.value = translated;
+                    copyBtn.disabled = false;
+                    showStatus('✅ अनुवाद सफल! ' + translated.length + ' अक्षर', 'success');
+                } else {
+                    throw new Error('No translation');
+                }
             } catch (error) {
-                console.error('Translation failed:', error);
-                hindiText.value = '❌ अनुवाद सेवा अस्थायी अनुपलब्ध।
-इंटरनेट चेक करें या थोड़ी देर बाद ट्राई करें।';
-                showStatus('🌐 सभी APIs down हैं। VPN ट्राई करें!', 'error');
+                console.error(error);
+                hindiText.value = '❌ अनुवाद विफल। इंटरनेट चेक करें!';
+                showStatus('🌐 इंटरनेट कनेक्शन चेक करें!', 'error');
             } finally {
                 setLoading(false);
             }
         }
 
-        async function fetchMyMemory(text) {
-            try {
-                const response = await fetch(
-                    `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=en|hi`
-                );
-                const data = await response.json();
-                if (data.responseStatus === 200 && data.responseData?.translatedText) {
-                    return data.responseData.translatedText;
-                }
-            } catch (e) {}
-            return null;
+        // ✅ FIXED File Upload
+        function uploadFile() {
+            fileInput.click();
         }
 
-        async function fetchLibreTranslate(text) {
-            try {
-                const response = await fetch('https://libretranslate.de/translate', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        q: text,
-                        source: 'en',
-                        target: 'hi',
-                        format: 'text'
-                    })
-                });
-                const data = await response.json();
-                return data.translatedText;
-            } catch (e) {}
-            return null;
-        }
-
-        async function fetchBackupAPI(text) {
-            try {
-                const response = await fetch('https://translate-api-free.vercel.app/translate', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ text, target: 'hi', source: 'en' })
-                });
-                const data = await response.json();
-                return data.translatedText;
-            } catch (e) {}
-            return null;
-        }
-
-        function finishTranslation(translatedText) {
-            hindiText.value = translatedText;
-            copyBtn.disabled = false;
-            showStatus(`✅ सफल! ${translatedText.length} अक्षर`, 'success');
-        }
-
-        function setLoading(loading) {
-            translateBtn.disabled = loading;
-            translateBtn.innerHTML = loading ? '⏳ हो रहा है...' : '⚡ Translate';
-            if (loading) {
-                statusDiv.className = 'status loading';
-                statusDiv.textContent = 'कनेक्ट हो रहा है...';
-                statusDiv.style.display = 'block';
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const content = event.target.result;
+                    englishText.value = content.slice(0, 2000);
+                    showStatus('✅ फाइल लोड हो गई! (' + content.length + ' अक्षर)', 'success');
+                    fileInput.value = '';
+                };
+                reader.onerror = function() {
+                    showStatus('❌ फाइल एरर!', 'error');
+                };
+                reader.readAsText(file);
             }
-        }
+        });
 
-        function showStatus(msg, type) {
-            statusDiv.textContent = msg;
-            statusDiv.className = `status ${type}`;
-            statusDiv.style.display = 'block';
-            setTimeout(() => statusDiv.style.display = 'none', 5000);
-        }
-
-        function copyText() {
-            const text = hindiText.value.trim();
-            if (!text || text.startsWith('❌') || text.startsWith('⏳')) {
+        // Copy function
+        function copyHindi() {
+            const text = hindiText.value;
+            if (!text || text.includes('❌')) {
                 showStatus('❌ पहले अनुवाद करें!', 'error');
                 return;
             }
 
             navigator.clipboard.writeText(text).then(() => {
-                const btn = copyBtn;
-                const original = btn.innerHTML;
-                btn.innerHTML = '✅ कॉपी हो गया!';
-                btn.classList.add('success');
-                setTimeout(() => {
-                    btn.innerHTML = original;
-                    btn.classList.remove('success');
-                }, 2000);
-                showStatus('📋 हिंदी क्लिपबोर्ड में कॉपी!', 'success');
+                showStatus('✅ हिंदी कॉपी हो गया!', 'success');
             }).catch(() => {
                 hindiText.select();
                 document.execCommand('copy');
-                showStatus('📋 हिंदी कॉपी हो गया!', 'success');
+                showStatus('✅ हिंदी कॉपी हो गया!', 'success');
             });
         }
 
-        // Keyboard shortcuts
+        function setLoading(loading) {
+            translateBtn.disabled = loading;
+            translateBtn.textContent = loading ? '⏳ हो रहा है...' : '⚡ Translate';
+            status.className = loading ? 'loading' : '';
+            status.style.display = loading ? 'block' : 'none';
+        }
+
+        function showStatus(message, type) {
+            status.textContent = message;
+            status.className = type;
+            status.style.display = 'block';
+            setTimeout(() => {
+                if (!translateBtn.disabled) status.style.display = 'none';
+            }, 3000);
+        }
+
+        // Keyboard shortcut
         document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey || e.metaKey) {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    translateText();
-                }
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                translateNow();
             }
         });
 
-        // Initialize
-        updateCharCount();
+        // Test with sample text
+        englishText.value = 'Hello, how are you today? This is a test translation.';
     </script>
 </body>
 </html>
