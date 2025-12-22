@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic Toolbox | DigiTech-io</title>
+    <style>
+        :root {
+            --primary-bg: #0a192f;
+            --card-bg: #112240;
+            --neon-blue: #64ffda;
+            --text-color: #ccd6f6;
+        }
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        header {
+            padding: 40px 20px;
+            text-align: center;
+        }
+        h1 { color: var(--neon-blue); font-size: 2.5rem; margin-bottom: 10px; }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            width: 90%;
+            max-width: 1200px;
+            padding: 20px;
+        }
+        .card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(100, 255, 218, 0.1);
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(100, 255, 218, 0.2);
+            border-color: var(--neon-blue);
+        }
+        .card h2 { color: var(--neon-blue); }
+        .btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 20px;
+            border: 2px solid var(--neon-blue);
+            color: var(--neon-blue);
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .btn:hover { background: var(--neon-blue); color: var(--primary-bg); }
+        footer { margin-top: auto; padding: 20px; font-size: 0.9rem; opacity: 0.7; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>✨ Magic Toolbox</h1>
+    <p>AI-Powered Digital Utilities for Everyone</p>
+</header>
+
+<div class="grid">
+    <div class="card">
+        <h2>🔤 LingoBridge</h2>
+        <p>English to Simple Hindi Converter with PDF support.</p>
+        <a href="translator.html" class="btn">Open Translator</a>
+    </div>
+
+    <div class="card">
+        <h2>🖼️ SnapClear</h2>
+        <p>Remove & Change Image Backgrounds in one click.</p>
+        <a href="snapclear.html" class="btn">Open Image Editor</a>
+    </div>
+
+    <div class="card">
+        <h2>📹 CineMask</h2>
+        <p>Real-time Video Background Changer & Blur.</p>
+        <a href="cinemask.html" class="btn">Open Video Editor</a>
+    </div>
+</div>
+
+<footer>
+    © 2026 DigiTech-io | Sitamarhi, Bihar
+</footer>
+
+</body>
+</html>
