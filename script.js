@@ -1,49 +1,69 @@
-// Magic Toolbox - Final Frontend Script
-const imageInput = document.getElementById('imageInput');
-const removeBgBtn = document.getElementById('removeBgBtn');
-const resultContainer = document.getElementById('resultContainer');
-const downloadBtn = document.getElementById('downloadBtn');
-const processedImage = document.getElementById('processedImage');
+const imgInput = document.getElementById('imgInput');
+const btnImgRemoveBg = document.getElementById('btnImgRemoveBg');
+const btnDownloadImg = document.getElementById('btnDownloadImg');
+const resultImage = document.getElementById('resultImage');
+const placeholderText = document.getElementById('placeholderText');
 const loader = document.getElementById('loader');
 
-removeBgBtn.addEventListener('click', async () => {
-    if (!imageInput.files[0]) {
+// Render API URL
+const API_URL = "https://magic-backend-354o.onrender.com/remove-bg";
+
+btnImgRemoveBg.onclick = async () => {
+    if (imgInput.files.length === 0) {
         alert("कृपया पहले एक फोटो चुनें!");
         return;
     }
 
+    const file = imgInput.files[0];
     const formData = new FormData();
-    formData.append('image', imageInput.files[0]);
+    formData.append('file', file);
 
-    // लोडर दिखाएं और बटन बंद करें
-    loader.style.display = 'block';
-    removeBgBtn.disabled = true;
-    resultContainer.style.display = 'none';
+    // UI Updates
+    btnImgRemoveBg.disabled = true;
+    btnImgRemoveBg.innerText = "Processing...";
+    loader.style.display = "inline-block";
+    btnDownloadImg.style.display = "none";
 
     try {
-        // Render बैकएंड को फोटो भेजना
-        const response = await fetch('https://magic-backend-354o.onrender.com/remove-bg', {
+        const response = await fetch(API_URL, {
             method: 'POST',
             body: formData
         });
 
-        if (!response.ok) throw new Error('सर्वर से जवाब नहीं मिला');
+        if (!response.ok) throw new Error("सर्वर चालू हो रहा है... कृपया 30 सेकंड बाद फिर से कोशिश करें।");
 
-        // बैकएंड से प्रोसेस की हुई फोटो (Blob) प्राप्त करना
         const blob = await response.blob();
-        const url = URL.createObjectURL(blob);
+        const imageUrl = URL.createObjectURL(blob);
 
-        // रिजल्ट दिखाना
-        processedImage.src = url;
-        downloadBtn.href = url;
-        downloadBtn.download = 'magic_image.png';
-        resultContainer.style.display = 'block';
+        // Show Result
+        resultImage.src = imageUrl;
+        resultImage.style.display = "block";
+        placeholderText.style.display = "none";
+        btnDownloadImg.style.display = "inline-block";
+
+        // Download Logic
+        btnDownloadImg.onclick = () => {
+            const a = document.createElement('a');
+            a.href = imageUrl;
+            a.download = 'bg_removed_by_digitech.png';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        };
 
     } catch (error) {
-        console.error("Error:", error);
-        alert("कुछ गड़बड़ हो गई! कृपया दोबारा कोशिश करें।");
+        alert(error.message);
     } finally {
-        loader.style.display = 'none';
-        removeBgBtn.disabled = false;
+        btnImgRemoveBg.disabled = false;
+        btnImgRemoveBg.innerText = "✨ Remove Background";
+        loader.style.display = "none";
     }
-});
+};
+
+document.getElementById('btnImgClear').onclick = () => {
+    imgInput.value = "";
+    resultImage.style.display = "none";
+    placeholderText.style.display = "block";
+    btnDownloadImg.style.display = "none";
+};
+
