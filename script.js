@@ -150,3 +150,4 @@ btnImgClear.addEventListener('click', () => {
   imgInput.value = '';
   resetPreview();
 });
+
